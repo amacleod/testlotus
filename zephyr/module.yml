@@ -1,0 +1,5 @@
+---
+name: testlotus
+build:
+  settings:
+    board_root: .

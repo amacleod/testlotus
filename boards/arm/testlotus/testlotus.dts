@@ -1,0 +1,67 @@
+/* testlotus.dts */
+
+/dts-v1/;
+#include <nordic/nrf52840_qiaa.dtsi>
+
+/ {
+  model = "Test Lotus";
+  compatible = "tweety,lotus";
+
+  chosen {
+    zephyr,console = &usb_cdc_acm_uart;
+    zephyr,sram = &sram0;
+    zephyr,flash = &flash0;
+  };
+
+  leds {
+    compatible = "gpio-leds";
+    led0: led_0 {
+      gpios = <&gpio1 11 GPIO_ACTIVE_LOW>;
+    };
+  };
+
+  /* These aliases are provided for compatibility with samples */
+  aliases {
+    led0 = &led0;
+  };
+};
+
+&gpio0 {
+  status = "okay";
+};
+
+&gpio1 {
+  status = "okay";
+};
+
+&flash0 {
+  partitions {
+    compatible = "fixed-partitions";
+    #address-cells = <1>;
+    #size-cells = <1>;
+
+    code_partition: partition@0 {
+      label = "code_partition";
+      reg = <0x00000000 0x000c5000>;
+    };
+
+    storage_partition: partition@ec000 {
+      label = "storage";
+      reg = <0x000ec000 0x00008000>;
+    };
+
+    boot_partition: partition@f4000 {
+      label = "adafruit_boot";
+      reg = <0x000f4000 0x0000c000>;
+    };
+  };
+};
+
+zephyr_udc0: &usbd {
+  compatible = "nordic,nrf-usbd";
+  status = "okay";
+
+  usb_cdc_acm_uart: cdc-acm-uart {
+    compatible = "zephyr,cdc-acm-uart";
+  };
+};

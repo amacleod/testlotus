@@ -1,0 +1,6 @@
+if BOARD_TESTLOTUS
+
+config BOARD
+  default "testlotus"
+
+endif # BOARD_TESTLOTUS
